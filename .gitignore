@@ -82,6 +82,11 @@ celerybeat-schedule
 venv/
 ENV/
 
+# Own results
+nnUNet_results/
+nnUNet_preprocessed/
+jobs/
+
 # Spyder project settings
 .spyderproject
 
