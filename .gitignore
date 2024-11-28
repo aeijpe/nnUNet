@@ -119,3 +119,7 @@ jobs/
 *.model
 
 !documentation/assets/scribble_example.png
+
+# Bash files
+run_nnUNet.sh
+test_nnUNet.sh
