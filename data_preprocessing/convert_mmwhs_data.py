@@ -3,6 +3,7 @@ import glob
 import numpy as np
 import nibabel as nib
 import re
+import argparse
 
 def rename(directory_a, directory_b, r1, r2):
     directory_b1 = os.path.join(directory_b, "imagesTr")
@@ -162,7 +163,7 @@ def rename_folds(dir1, dir2, cases, fold):
 
 
 
-def main():
+def preprocess():
     # Specify the directory containing the files
     # directory_a = "/data/groups/public/archive/radiology/multimodal_raw/Dataset033_MMWHSCT/imagesTrCopy"
     # directory_b = "/data/groups/public/archive/radiology/multimodal_raw/Dataset033_MMWHSCT/imagesNA"
@@ -186,15 +187,29 @@ def main():
     # rename_folds(directory_a, directory_b, [0, 1, 2, 9], 4)
 
 
-    directory_a = "/data/groups/public/archive/radiology/multimodal_raw/Dataset034_MMWHSMRI/imagesTrCopy"
-    directory_b = "/data/groups/public/archive/radiology/multimodal_raw/Dataset034_MMWHSMRI/imagesNA"
-    rename_folds(directory_a, directory_b, [6, 9, 13, 16], 0)
-    rename_folds(directory_a, directory_b, [1, 2, 4, 18], 1)
-    rename_folds(directory_a, directory_b, [7, 12, 14, 17], 2)
-    rename_folds(directory_a, directory_b, [5, 10, 11, 19], 3)
-    rename_folds(directory_a, directory_b, [0, 3, 8, 15], 4)
 
+
+def main(args):
+    # Specify the directory containing the files
+    np.random.seed(args.seed)
+    if args.data_type == "MMWHSMRI":
+        data_raw_name = ""
+        img_raw_folder = os.path.join(data_raw_name, "")
+    elif args.data_type == "MMWHSCT":
+        data_raw_name = ""
+        img_raw_folder = os.path.join(data_raw_name, "")
+    else:
+        print("Data type is not supported")
+
+    preprocess(args, data_raw_name, img_raw_folder)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='CHAOS preprocess Script')
+    parser.add_argument('--folder_raw_data', type=str, default='/data/groups/beets-tan/a.eijpe/multimodal_raw/chaos', help='raw data directory')
+    parser.add_argument('--folder_pp_data', type=str, default='/data/groups/beets-tan/a.eijpe/multimodal_raw/Dataset035_CHAOST1', help='preprocessed data directory')
+    parser.add_argument('--data_type', type=str, default=None, help='raw data directory: Choose between CHAOST1 and CHAOST2')
+    parser.add_argument('--seed', type=int, default=42, help='seed')
+    args = parser.parse_args()
+
+    main(args)
